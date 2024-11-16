@@ -7,18 +7,17 @@ fn find_two_sum(nums: &[Value], target: Value) -> (Index, Index)
 {
     let mut visited: HashMap<i32, usize> = HashMap::new();
 
-    for idx in 0..nums.len()
+    for (idx, value) in nums.iter().enumerate()
     {
-        let current = target - nums[idx];
+        let current = target - value;
         let search = visited.get(&current);
 
         match search
         {
             Some(value) => return (*value, idx),
-            None => visited.insert(nums[idx], idx),
+            None => visited.insert(*value, idx),
         };
     }
-
     (0, 0)
 }
 
