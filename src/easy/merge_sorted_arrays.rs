@@ -6,9 +6,9 @@ fn merge_sorted_arrays_naive(nums1: &mut [i32], m: usize, nums2: &[i32], n: usiz
 
 fn merge_sorted_arrays_two_pointers(nums1: &mut [i32], m: usize, nums2: &[i32], n: usize)
 {
-    let mut n1_ptr = (m - 1) as i32;
-    let mut n2_ptr = (n - 1) as i32;
-    let mut merged_ptr = (n + m - 1) as i32;
+    let mut n1_ptr = m as i32 - 1;
+    let mut n2_ptr = n as i32 - 1;
+    let mut merged_ptr = n as i32 + m as i32 - 1;
 
     while n2_ptr >= 0
     {
@@ -29,27 +29,32 @@ fn merge_sorted_arrays_two_pointers(nums1: &mut [i32], m: usize, nums2: &[i32], 
 #[cfg(test)]
 mod tests
 {
+    use rstest::rstest;
+
     use super::*;
 
-    #[test]
-    fn validate_naive_approach()
+    #[rstest]
+    #[case(vec![1, 2, 3, 0, 0, 0], 3, vec![2, 5, 6], 3, vec![1, 2, 2, 3, 5, 6])]
+    #[case(vec![1], 1, vec![], 0, vec![1])]
+    #[case(vec![0], 0, vec![1], 1, vec![1])]
+    fn validate_naive_approach(#[case] mut v1: Vec<i32>, #[case] m: usize, #[case] v2: Vec<i32>,
+                               #[case] n: usize, #[case] expected: Vec<i32>)
     {
-        let mut v1 = vec![1_i32, 2, 3, 4, 5, 0, 0, 0];
-        let v2 = vec![1_i32, 5, 9];
+        merge_sorted_arrays_naive(&mut v1, m, &v2, n);
 
-        merge_sorted_arrays_naive(&mut v1, 5, &v2, 3);
-
-        assert_eq!(v1, vec![1, 1, 2, 3, 4, 5, 5, 9]);
+        assert_eq!(v1, expected);
     }
 
-    #[test]
-    fn validate_two_pointer_approach()
+    #[rstest]
+    #[case(vec![1, 2, 3, 0, 0, 0], 3, vec![2, 5, 6], 3, vec![1, 2, 2, 3, 5, 6])]
+    #[case(vec![1], 1, vec![], 0, vec![1])]
+    #[case(vec![0], 0, vec![1], 1, vec![1])]
+    fn validate_two_pointer_approach(#[case] mut v1: Vec<i32>, #[case] m: usize,
+                                     #[case] v2: Vec<i32>, #[case] n: usize,
+                                     #[case] expected: Vec<i32>)
     {
-        let mut v1 = vec![1_i32, 2, 3, 4, 5, 0, 0, 0];
-        let v2 = vec![1_i32, 5, 9];
+        merge_sorted_arrays_two_pointers(&mut v1, m, &v2, n);
 
-        merge_sorted_arrays_two_pointers(&mut v1, 5, &v2, 3);
-
-        assert_eq!(v1, vec![1, 1, 2, 3, 4, 5, 5, 9]);
+        assert_eq!(v1, expected);
     }
 }
