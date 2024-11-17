@@ -4,7 +4,7 @@ fn reverse_integer(mut value: i32) -> i32
 
     while value != 0
     {
-        match reversed.checked_mul(10).map(|v| v.checked_add(value % 10)).flatten()
+        match reversed.checked_mul(10).and_then(|v| v.checked_add(value % 10))
         {
             Some(v) => reversed = v,
             None => return 0,
