@@ -20,14 +20,18 @@ fn find_longest_substring(s: String) -> usize
 #[cfg(test)]
 mod tests
 {
+    use rstest::rstest;
+
     use super::*;
 
-    #[test]
-    fn test_longest_substring()
+    #[rstest]
+    #[case("abcabcbb", 3)]
+    #[case("bbbbb", 1)]
+    #[case("pwwkew", 3)]
+    fn test_longest_substring(#[case] s: String, #[case] expected: usize)
     {
-        let s = String::from("abcabcbb");
         let result = find_longest_substring(s);
 
-        assert_eq!(result, 3);
+        assert_eq!(result, expected);
     }
 }
