@@ -5,7 +5,7 @@ type Value = i32;
 
 fn find_two_sum(nums: &[Value], target: Value) -> (Index, Index)
 {
-    let mut visited: HashMap<i32, usize> = HashMap::new();
+    let mut visited: HashMap<Value, Index> = HashMap::new();
 
     for (idx, value) in nums.iter().enumerate()
     {
