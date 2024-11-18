@@ -1,32 +1,33 @@
-fn build_needed_indicies(size: usize, k: i32, lookup_idx: usize) -> Vec<usize>
+type IndicesFn = fn(usize, i32, usize) -> Vec<usize>;
+
+fn get_inc_indices(size: usize, k: i32, lookup_idx: usize) -> Vec<usize>
 {
     let abs_k = k.unsigned_abs() as usize;
     let mut result = Vec::with_capacity(abs_k);
 
-    if k > 0
+    for idx in 1..abs_k + 1
     {
-        for idx in 1..abs_k + 1
-        {
-            result.push((lookup_idx + idx) % size);
-        }
+        result.push((lookup_idx + idx) % size);
     }
-    else
+    result
+}
+
+fn get_dec_indices(size: usize, k: i32, lookup_idx: usize) -> Vec<usize>
+{
+    let abs_k = k.unsigned_abs() as usize;
+    let mut result = Vec::with_capacity(abs_k);
+
+    for idx in 1..abs_k + 1
     {
-        for idx in 1..abs_k + 1
+        let calculated = (lookup_idx as i32 - idx as i32) % size as i32;
+
+        if calculated < 0
         {
-            let calculated = (lookup_idx as i32 - idx as i32) % size as i32;
-
-            if calculated < 0
-            {
-                result.push((calculated + size as i32) as usize);
-            }
-            else
-            {
-                result.push(calculated as usize);
-            }
+            result.push((calculated + size as i32) as usize);
+            continue;
         }
+        result.push(calculated as usize);
     }
-
     result
 }
 
@@ -40,9 +41,16 @@ fn defuse_the_bomb(code: &[i32], k: i32) -> Vec<i32>
         return result;
     }
 
+    let mut indices_fn: IndicesFn = get_dec_indices;
+
+    if k > 0
+    {
+        indices_fn = get_dec_indices;
+    }
+
     for (idx, value) in result.iter_mut().enumerate()
     {
-        let indicies = build_needed_indicies(size, k, idx);
+        let indicies = indices_fn(size, k, idx);
 
         for calculated in indicies
         {
