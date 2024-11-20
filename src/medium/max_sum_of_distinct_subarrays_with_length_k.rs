@@ -45,7 +45,7 @@ fn max_subarray_sum_naive(nums: &[i32], k: usize) -> i32
 
     while rptr < nums.len()
     {
-        let window = &nums[lptr..rptr].into_iter().collect::<HashSet<&i32>>();
+        let window = &nums[lptr..rptr].iter().collect::<HashSet<&i32>>();
 
         if window.len() == k
         {
