@@ -23,16 +23,13 @@ fn search(nums: &[i32], target: i32) -> i32
                 lptr = mptr + 1;
             }
         }
+        else if nums[mptr] <= target && target <= nums[rptr]
+        {
+            lptr = mptr + 1;
+        }
         else
         {
-            if nums[mptr] <= target && target <= nums[rptr]
-            {
-                lptr = mptr + 1;
-            }
-            else
-            {
-                rptr = mptr - 1;
-            }
+            rptr = mptr - 1;
         }
     }
     -1
