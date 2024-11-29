@@ -1,7 +1,7 @@
 use std::cmp::{min, Reverse};
 use std::collections::{BinaryHeap, HashSet};
 
-fn minimum_obstacles(grid: &Vec<Vec<u8>>) -> i32
+fn minimum_obstacles(grid: &[Vec<u8>]) -> i32
 {
     const POSSIBLE_DIR: [(i32, i32); 4] = [(1, 0), (-1, 0), (0, 1), (0, -1)];
 
@@ -16,7 +16,7 @@ fn minimum_obstacles(grid: &Vec<Vec<u8>>) -> i32
     let mut visited = HashSet::new();
     visited.insert((0, 0));
 
-    while heap.len() != 0
+    while !heap.is_empty()
     {
         let Reverse((cost, r, c)) = heap.pop().unwrap();
 
