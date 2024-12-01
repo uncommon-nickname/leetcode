@@ -1,9 +1,8 @@
-use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 
 fn max_equal_rows_after_flips(matrix: &[Vec<u8>]) -> usize
 {
-    let mut memory = HashMap::new();
+    let mut memory = HashMap::<u8, usize>::new();
 
     for row in matrix
     {
@@ -14,20 +13,10 @@ fn max_equal_rows_after_flips(matrix: &[Vec<u8>]) -> usize
         {
             pattern |= (element ^ first) << idx;
         }
-        match memory.entry(pattern)
-        {
-            Entry::Occupied(mut e) =>
-            {
-                e.insert(e.get() + 1);
-            }
-            Entry::Vacant(e) =>
-            {
-                e.insert(1);
-            }
-        };
+        *memory.entry(pattern).or_default() += 1;
     }
 
-    memory.values().max().unwrap().to_owned()
+    *memory.values().max().unwrap()
 }
 
 #[cfg(test)]
