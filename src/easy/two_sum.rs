@@ -1,11 +1,8 @@
 use std::collections::HashMap;
 
-type Index = usize;
-type Value = i32;
-
-fn find_two_sum(nums: &[Value], target: Value) -> (Index, Index)
+fn find_two_sum(nums: &[i32], target: i32) -> (usize, usize)
 {
-    let mut visited: HashMap<Value, Index> = HashMap::new();
+    let mut visited = HashMap::new();
 
     for (idx, value) in nums.iter().enumerate()
     {
